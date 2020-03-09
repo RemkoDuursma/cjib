@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Version control with git and Rstudio</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2020-03-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Version control with git and Rstudio',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Remko Duursma' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+  </style>
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides>
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">5 March 2020</p>
+          </hgroup>
+  </slide>
+
+<slide class=""><hgroup><h2>Why version control?</h2></hgroup><article  id="why-version-control">
+
+<p>With git version control you can:</p>
+
+<ol>
+<li>Keep a <strong>history</strong> of all the changes you have made to your code.</li>
+<li>Be able to <strong>revert</strong> to an old version, or briefly look around in old code, or find any code you have written in at some time in the past.</li>
+<li><strong>Undo</strong> fatal coding mistakes.</li>
+<li><strong>Avoid multiple versions</strong> of the same script (<code>myscrip_v1.R</code>, <code>myscript_v1_mod2.R</code> etc.), and commented-out bits of code that you no longer need.</li>
+<li><strong>Collaborate</strong> with others on the same code, and easily merge the changes you and your collaborators make.</li>
+<li>Maintain an <strong>online backup</strong> of your code base, and allow easy <strong>sharing</strong> of that code with others.</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>git : manage the files in a folder</h2></hgroup><article  id="git-manage-the-files-in-a-folder">
+
+<ul>
+<li>With git, each folder can have its own git &ldquo;repository&rdquo;</li>
+<li>The repository is stored in a hidden subfolder (<code>.git</code>)</li>
+</ul>
+
+<img src='screenshots/gitfolder.git' title=''/>
+
+<ul>
+<li>Here, git can <em>see</em> all the changes to files in the root (&ldquo;main.R&rdquo;) and all its subfolders (R, data, output, …).</li>
+<li>You have to decide which files to &ldquo;track&rdquo; (and you can <em>ignore</em> others)</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Basics of git (2)</h2></hgroup><article  id="basics-of-git-2">
+
+<ul>
+<li>Changes to the files are not &lsquo;saved&rsquo; automatically, you have to decide when you want to store a snapshot of the files in your repository.</li>
+<li>To do so, you <strong>stage</strong> edited (or added) files, then <strong>commit</strong> them to the repository.</li>
+<li>You can decide which changes to keep, and which ones to discard.</li>
+</ul>
+
+<img src='screenshots/gitfolder.git' title=''/>
+
+<p>The first time you &ldquo;initialize&rdquo; git in a folder.</p>
+
+<p>Empty folders are not shown.</p>
+
+</article></slide><slide class=""><hgroup><h2>What to track?</h2></hgroup><article  id="what-to-track">
+
+<ul>
+<li><p>A good rule of thumb is to <strong>only track code, not outputs or data</strong></p></li>
+<li><p>Typically only track text-based files (<code>.R</code>, <code>.txt</code>), not binary files (<code>.pdf</code>, <code>.docx</code>).</p></li>
+<li><p>Every time git stores a snapshot of your repository, it includes a new copy of the changed files.</p></li>
+<li><p>For text-based files, it only stores the <em>difference</em> with the previous version (the &ldquo;diff&rdquo;).</p></li>
+<li><p>If binary files are included, the size of the repository will grow quickly and become impractical.</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Local and remote repositories</h2></hgroup><article  id="local-and-remote-repositories">
+
+<p>git repositories are <strong>always local</strong>, and optionally you can sync with a remote repository</p>
+
+<ul>
+<li>Saving snapshots of your changes (<strong>committing</strong>) is done on your computer</li>
+<li>Optionally, you can send these changes to a remote repository (<strong>push</strong>)</li>
+<li>The remote acts as a mirror of your local repository</li>
+<li>You can also fetch changes in the remote not on your computer (<strong>pull</strong>)</li>
+<li>These changes can be from a collaborator, or from yourself on another computer</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>git, github, bitbucket</h2></hgroup><article  id="git-github-bitbucket">
+
+<ul>
+<li><em>git</em> is the actual version control system</li>
+<li><em>github.com</em> and <em>bitbucket.org</em> are websites that host online git repositories</li>
+<li>These websites are <strong>not</strong> needed for version control, only to keep a remote copy of your code</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>git and Rstudio</h2></hgroup><article  id="git-and-rstudio">
+
+<ul>
+<li>Rstudio has a convenient GUI to use basic functionality of git</li>
+<li>You can also use <em>git</em> from the command line, which we need sometimes.</li>
+<li>Also, when you have <em>many</em> files in your repository to stage, the Rstudio menu can be very slow</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Installing</h2></hgroup><article  id="installing">
+
+<ul>
+<li><a href='https://git-scm.com/downloads' title=''>https://git-scm.com/downloads</a></li>
+</ul></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

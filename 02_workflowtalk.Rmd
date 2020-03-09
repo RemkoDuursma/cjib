@@ -1,0 +1,227 @@
+---
+title: "R Project Management"
+author: Remko Duursma
+output: ioslides_presentation
+---
+
+
+## Een "Goed" project
+
+
+1. "Reproducable" : de analyse kan uitgevoerd worden op een andere machine, door een andere gebruiker, en/of (ver) in de toekomst
+2. Duidelijke instructies: hoe runnen we de analyse? Wat zijn de vereisten? Waar komen de outputs terecht?
+3. Logische folder structuur (code / data / output / settings)
+4. Een 'main' script, waarmee de gehele analyse gestart kan worden
+5. Alleen werkende / noodzakelijke scripts in het project, geen rotzooi
+6. Gebruik van *functions* om code in logische brokken te organiseren
+7. Gebruik van een simpele *cache* om langdurende stappen op te slaan
+
+
+
+## Reproducable research
+
+- Een ideaal project kan met gemak door een andere gebruiker gerund worden
+- Een project moet in 1 folder georganiseerd zijn, met meerdere subfolders
+- Als het project gekopieerd wordt naar een andere computer moet het werken, met minimale interventie van de gebruiker
+- Het is 100% duidelijk welke code welke output (figuren, data, etc.) geproduceerd heeft
+
+
+Er zijn een aantal uitdagingen om een project zonder veel aanpassingen op een andere machine uit te voeren. Een aantal hiervan zijn,
+
+1. Platform. Werkt het project alleen op Windows?
+2. Is er behalve R andere software nodig? (Sommige R packages hebben ook systeem vereisten!)
+4. R Packages. Zijn de package afhankelijkheden minimaal? Zijn alle packages beschikbaar op CRAN?
+5. Blijft het project werken als een nieuwere versie van een package is geinstalleerd?
+5. Zijn er wachtwoorden nodig, bv. voor database toegang?
+
+
+## Instructies
+
+Is er voldoende informatie om door iemand anders het project uit te laten voeren?
+
+Schrijf voor elk project een `README.md`, bv.:
+
+```
+# Almere Parkeerplaats Analyse
+
+Dit is de repository voor de analyse van parkeer data in Almere, van Maart tot November 2020.
+
+## Dependencies
+
+- R > 3.6
+- Alle R packages worden geladen met het script `R/load_packages.R`.
+- Getest op Windows, Mac
+- Eenmalig internet verbinding nodig voor het downloaden van de data
+
+## Instructies
+
+- Voeg een `config.yml` bestand toe met wachtwoord informatie (zie hieronder).
+
+- Run het script "main.R". Benodigde packages worden automatisch geinstalleerd.
+
+
+## Auteur
+
+Remko Duursma
+
+```
+
+
+## Logische folder structuur
+
+Er zijn veel mogelijkheden om de verschillende bestanden in een project te verdelen in een logische folder structuur.
+
+Dit is belangrijk:
+
+- Houd *code*, *data*, en *output* altijd gescheiden
+
+Een minimaal voorbeeld:
+
+![](../screenshots/folderstructuresmall.png)  
+
+Er is 1 hoofd script, "analysis.R", waarin alle analyses worden uitgevoerd.
+
+Hier is de *code* verdeeld in een aantal scripts in de **R** folder, en 1 hoofdscript ("analysis.R") die andere scripts aanroept.
+
+De *data* bestanden zijn ondergebracht in **data**.
+
+Outputs (figuren, bewerkte datasets, etc.) worden geschreven naar `output/figures`, `output/data`, etc.
+
+
+
+
+## Werken met folders
+
+
+Gebruik nooit een compleet path naar je bestanden, bv:
+
+```{r, eval=FALSE}
+# Doe dit niet
+mydata <- read.csv("c:/users/remko/project1/data/bestand1.csv")
+```
+
+Dit werkt niet op een andere machine.
+
+Folders binnen je project folder kun je met een "relatief" path opvragen:
+
+```{r, eval=FALSE}
+mydata <- read.csv("rawdata/bestand1.csv")
+```
+
+
+
+## Main script
+
+Om andere scripts te runnen kun je `source` gebruiken.
+
+Op deze manier krijgt een hoofd script een duidelijke structuur.
+
+```{r eval=FALSE}
+# Load packages
+source("R/load_packages")
+
+# Laad eigen functies.
+source("R/functions.R")
+
+# Configuratie
+conf <- yaml::read_yaml("passwords.yml")
+
+# Lees de ruwe data
+main_data <- read_raw_data(conf)
+
+# Make figures
+source("R/make_figures.R")
+
+# Regressie modellen
+source("R/linearmodels.R")
+```
+
+
+
+
+
+## Geen rotzooi
+
+
+- Verwijder bestanden die je niet meer nodig hebt in het project.
+
+- Sla *backups* van het project ergens anders op.
+
+- Het idee is dat je een project netjes en "portable" maakt, zodat het makkelijk later / door iemand anders gebruikt kan worden.
+
+- Met *git* kun je altijd oude code terugvinden, bv (vanuit bash):
+
+```
+git log -G verlorenfunctie
+```
+
+Met dit command zoekt *git* waar "verlorenfunctie" voorkomt in veranderde code (bv. waar de code was verwijderd).
+
+
+
+## Gebruik functies om code te organiseren
+
+Het verdelen van code in aparte scripts is al een goede stap, maar voor een nog meer transparante en robuuste werkwijze is het aan te raden functies te schrijven.
+
+
+### Functies maken de flow van informatie duidelijk
+
+(deel van een master script):
+
+```{r eval=FALSE}
+# Lees configuratie
+.conf <- yaml::read_yaml("config.yml")
+
+# Download ruwe data
+almere_parking_raw <- download_almere_parking_data(.conf)
+
+# Schone versie
+almere_parking <- clean_almere_data(almere_parking_raw)
+
+# Maak Figuur 1 (overzicht)
+to.pdf(
+  figure1(data = almere_parking), 
+  filename = "output/figure1.pdf"
+)
+
+```
+
+
+### Functies houden environment en geheugen schoon
+
+Stel dat we deze functie hebben gemaakt om een dataset in te lezen:
+
+```{r}
+download_almere_parking_data <- function(conf){
+  
+  passw <- conf$password
+  
+  db <- DBI::dbConnect(database = "db.almere.nl",
+                       password = passw)
+  
+  data <- dbReadTable(db, "almere_parking_current")
+  
+  dbDisconnect(db)
+  
+return(data)
+}
+```
+
+Als deze functie nu (vanuit een master script) wordt aangeroepen,
+
+```{r eval=FALSE}
+almere_parking_raw <- download_almere_parking_data(.conf)
+```
+
+Dan zijn de objecten `passw`, `db` en `data` **niet** beschikbaar in het 'global environment'. Deze objecten bestaan alleen tijdens de functie executie.
+
+Door het global environment niet te vervuilen met allerlei tijdelijke objecten, vermijden we:
+
+- *conflicten* : ik gebruik hier "data" als naam voor een object binnen een functie! Dit is veilig omdat dat object alleen binnen de functie bestaat. 
+- *lekkage* van gevoelige info (het wachtwoord staat nu ook in `passw`!)
+- *overmatig gebruik van geheugen* : Grote objecten die alleen tijdelijk nodig zijn kunnen het beste binnen een functie gebruikt worden, dan komt het geheugen weer vrij als de functie klaar is.
+
+
+
+
+

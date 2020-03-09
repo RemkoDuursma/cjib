@@ -1,0 +1,39 @@
+---
+title: "R & Rstudio: Advanced"
+output:
+  html_document:
+    toc: false
+---
+
+
+CJIB, Maart 2020
+
+
+
+### Syllabus
+
+Voor deze training gebruiken we een selectie van het boek:
+
+<span style="font-size: 1.4em">[A Learning Guide to R](https://remkoduursma.github.io/learningguidetor)</span>
+
+door [Remko Duursma](https://www.remkoduursma.com)
+
+
+- [Chapter 4 : R Programming: Lists, Functions, and Loops](https://remkoduursma.github.io/learningguidetor/programming.html)
+- [Chapter 6 : Version control with git and Rstudio](https://remkoduursma.github.io/learningguidetor/versioncontrol.html)
+- [Chapter 7 : R Project management](https://remkoduursma.github.io/learningguidetor/projectman.html)
+- [Chapter 8 : Mastering R Package Dependencies](https://remkoduursma.github.io/learningguidetor/rpackages.html)
+
+Om het boek te **printen**, klik op de PDF link in het online boek. 
+
+Oplossingen van de opgaven kun je [hier vinden](compiled_html/lgr_exercises.html).
+
+
+#### Voorbeeld project
+
+
+
+
+
+
+

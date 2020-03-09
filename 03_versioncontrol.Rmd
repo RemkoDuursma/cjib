@@ -1,0 +1,98 @@
+---
+title: "Version control with git and Rstudio"
+author: "Remko Duursma"
+date: "5 March 2020"
+output: ioslides_presentation
+---
+
+
+## Why version control?
+
+With git version control you can:
+
+1. Keep a **history** of all the changes you have made to your code.
+2. Be able to **revert** to an old version, or briefly look around in old code, or find any code you have written in at some time in the past.
+3. **Undo** fatal coding mistakes.
+
+
+## Why version control?
+
+With git version control you can:
+
+4. **Avoid multiple versions** of the same script (`myscrip_v1.R`, `myscript_v1_mod2.R` etc.)
+5. Keep code clean, deleting commented-out code that you no longer need.
+6. **Collaborate** with others on the same code, and easily merge the changes you and your collaborators make.
+7. Maintain an **online backup** of your code base, and allow easy **sharing** of that code with others.
+
+
+
+## git : manage the files in a folder
+
+* With git, each folder can have its own git "repository"
+* The repository is stored in a hidden subfolder (`.git`)
+
+![](screenshots/gitfolder.png)
+
+* Here, git can *see* all the changes to files in the root ("main.R") and all its subfolders (R, data, output, ...).
+* You have to decide which files to "track" (and you can *ignore* others)
+
+
+## Basics of git (2)
+
+* Changes to the files are not 'saved' automatically, you have to decide when you want to store a snapshot of the files in your repository.
+* To do so, you **stage** edited (or added) files, then **commit** them to the repository.
+* You can decide which changes to keep, and which ones to discard.
+
+
+![](screenshots/gitfirststaging.png)
+
+The first time you "initialize" git in a folder.
+
+Empty folders are not shown. 
+
+
+
+## What to track?
+
+* A good rule of thumb is to **only track code, not outputs or data**
+
+* Typically only track text-based files (`.R`, `.txt`), not binary files (`.pdf`, `.docx`). 
+
+* Every time git stores a snapshot of your repository, it includes a new copy of the changed files.
+* For text-based files, it only stores the *difference* with the previous version (the "diff").
+* If binary files are included, the size of the repository will grow quickly and become impractical.
+
+
+## Local and remote repositories
+
+git repositories are **always local**, and optionally you can sync with a remote repository
+
+* Saving snapshots of your changes (**committing**) is done on your computer
+* Optionally, you can send these changes to a remote repository (**push**)
+* The remote acts as a mirror of your local repository
+* You can also fetch changes in the remote not on your computer (**pull**)
+* These changes can be from a collaborator, or from yourself on another computer
+
+
+## git, github, bitbucket
+
+* *git* is the actual version control system
+* *github.com* and *bitbucket.org* are websites that host online git repositories
+* These websites are **not** needed for version control, only to keep a remote copy of your code
+
+
+## git and Rstudio
+
+* Rstudio has a convenient GUI to use basic functionality of git
+* You can also use *git* from the command line, which we need sometimes.
+* Also, when you have *many* files in your repository to stage, the Rstudio menu can be very slow
+
+
+## Installing
+
+- https://git-scm.com/downloads
+
+
+
+
+

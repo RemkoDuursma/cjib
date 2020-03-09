@@ -1,0 +1,27 @@
+---
+title: "R - Web Resources"
+output:
+  html_document:
+    toc: false
+---
+
+
+# R en Rstudio
+
+- [CRAN (Download R)](https://cran.rstudio.com/)
+- [Rstudio Download](https://www.rstudio.com/products/rstudio/download/)
+
+
+# Rtools
+
+On Windows, you need to install RNeeded to install packages from Github or Bitbucket or elsewhere:
+
+- [Rtools (select recommended version)](https://cran.r-project.org/bin/windows/Rtools/)
+
+
+# rmarkdown
+
+- [Opties voor HTML output (Rstudio)](https://bookdown.org/yihui/rmarkdown/html-document.html)
+- [Opties voor MS Word output (Rstudio)](https://bookdown.org/yihui/rmarkdown/word-document.html)
+- [Opties voor `knitr` (opties in de code chunks)](https://yihui.name/knitr/options/)
+

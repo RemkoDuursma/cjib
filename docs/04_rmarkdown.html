@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Remko Duursma" />
+
+
+<title>Making reports with rmarkdown</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="presentaties.html">Slides</a>
+</li>
+<li>
+  <a href="links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Making reports with rmarkdown</h1>
+<h4 class="author">Remko Duursma</h4>
+
+</div>
+
+
+<div id="scripts-or-rmarkdown" class="section level2">
+<h2>Scripts or rmarkdown?</h2>
+<p>Script files are good for simple analyses, and they are great for storing small amounts of code that you would like to use in lots of different projects. They are also the right solution if you want to produce R scripts that are executed as part of a larger project, for example from the command line, or executed on a schedule (e.g. daily data quality checking).</p>
+<p>But, scripts are not the best way to share your results - figures, tables, interactive graphs - with others. Instead, we strongly suggest you use R markdown - a document format that includes both text with markup, and <em>code chunks</em>, bits of R code that is executed, and the results placed in the document.</p>
+<p>Markdown is a simple set of rules for formatting text files so that they are both human-readable and processable by software, and is used not just by <code>rmarkdown</code> but in many applications (like Github and Stackoverflow). R Markdown simply adds R, by allowing code chunks with various options.</p>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>RStudio offers a handy editor for markdown files, and starts with an example file that shows many of the features. Start a new markdown file by choosing <kbd>File &gt; New File &gt; R Markdown…</kbd>. For now, leave the default settings. The new R markdown document (which is just a text file with the extension <code>.Rmd</code>) already contains some example code. Run this example by clicking the button just above the markdown document (Knit HTML). The example code will generate a new document (an HTML page), which opens in your browser You can see that the output contains text, R code, and even a plot.</p>
+<p><strong>Try</strong> ‘knitting’ the example rmarkdown file (the one you see when you open your first <code>rmarkdown</code> file). First install the <code>knitr</code> and <code>rmarkdown</code> packages. Next, click the ‘Knit’ button in the upper-right hand corner just above the file. An HTML file was created. Find it and open it.</p>
+</div>
+<div id="tips" class="section level2">
+<h2>Tips</h2>
+<div id="start-with-an-example-document" class="section level3">
+<h3>Start with an example document</h3>
+<p>When you open a new rmarkdown file (see previous section), the first step is to delete everything in the example document, <em>except the top section and the first code chunk</em>. Your rmarkdown document will now look like this:</p>
+<pre class="r"><code>---
+title: &quot;Untitled&quot;
+output: html_document
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```</code></pre>
+</div>
+<div id="modify-the-output-style" class="section level3">
+<h3>Modify the output style</h3>
+<p>You can add lots of options to the header (the bit between <code>--</code>), that affect how the conversion to HTML works (including style, settings for the table of contents, author, date, etc.). See the Rstudio help page for the HTML version of <code>rmarkdown</code> <a href="https://bookdown.org/yihui/rmarkdown/html-document.html">by following this link</a>.</p>
+<p>We list a few useful options; to see how these can be used search for them on the link above.</p>
+<ul>
+<li><code>code_folding: hide</code>, hides the code in the document, but adds a button to reveal the code.</li>
+<li><code>toc_float: true</code>, a very nice floating table of contents (the contents are always visible in a menu to the left)</li>
+<li><code>theme: cosmo</code>, or lots of other choices to be <a href="https://bootswatch.com/3/">picked from this gallery</a>, changes the colors, fonts, and general appearance of the document.</li>
+</ul>
+</div>
+<div id="learn-markdown-syntax-for-text-formatting" class="section level3">
+<h3>Learn markdown syntax for text formatting</h3>
+<p>As mentioned, the rest of the document contains two types of input: text with markup, and code chunks. Open a new rmarkdown document to see what the text with input looks like, and note the use of sections, formatting (bold, italic, etc.), weblinks, and so on. <a href="https://rmarkdown.rstudio.com/lesson-2.html">Follow the Rstudio <code>rmarkdown</code> lessons to learn more</a>.</p>
+</div>
+<div id="set-options-for-individual-code-chunks" class="section level3">
+<h3>Set options for individual code chunks</h3>
+<p>The code chunks contain R code, which will be executed, and the results will be visible in the eventual document (in our case, an HTML page). An R code chunk may look like this,</p>
+<pre class="r"><code>
+```{r titanicglm, echo = TRUE, eval = TRUE}
+fit &lt;- glm(Survived ~ Age, data = titanic)
+```</code></pre>
+<p>Here, <code>titanicglm</code> is a label for the chunk (you don’t need to set it), and <code>echo = TRUE</code> make the code visible in the document, and <code>eval=TRUE</code> actually runs the code in the chunk. Both these options are used a lot. You use <code>echo=FALSE</code> to not show code, for example when there is too much messy code to share for this particular block. You use <code>eval = FALSE</code> to disable execution of a single code chunk. This is very useful when you have some code that simply does not work yet, but you hate using comments (<code>#</code>) to disable it, instead you can place the code in its own chunk and set <code>echo=FALSE, eval=FALSE</code>.</p>
+</div>
+<div id="set-options-for-figure-output" class="section level3 unnumbered">
+<h3>Set options for figure output</h3>
+<p>An important step is to control the output of figures. The documentation is a bit overwhelming, but here is an example with some useful settings:</p>
+<pre class="r"><code>
+```{r titanicplot1, fig.cap=&quot;Number of passengers by Sex and PClass&quot;, fig.width=4, fig.height=4, dev=&quot;svg&quot;, echo = -1}`r&#39;&#39;`
+par(bg=&quot;azure&quot;)
+with(titanic, spineplot(Sex, PClass))
+```</code></pre>
+<p>Here, <code>fig.cap</code> makes a figure caption (but figures will not be automatically numbered, see below for an alternative), <code>fig.width</code> and <code>fig.height</code> set the figure size in inches, <code>dev="svg"</code> sets the graphic device to SVG (an outstanding format for the web) - you need to install <code>svglite</code> for this to work. Finally <code>echo=-1</code> hides the first row of the code in the output (in this case, we don’t want the reader to be bothered by graphical settings in <code>par()</code>).</p>
+</div>
+<div id="set-options-for-all-code-chunks" class="section level3 unnumbered">
+<h3>Set options for all code chunks</h3>
+<p>The section shown above that contains <code>knitr::opts_chunk$set(echo = TRUE)</code> sets <em>chunk options for the entire document</em>. An often used feature here is to hide all code from the eventual document by setting <code>echo=FALSE</code>, or set the figure size for all chunks with <code>fig.width = 5, fig.height = 5</code>, or use a particular graphics device (<code>dev = 'svg'</code>).</p>
+</div>
+<div id="auto-numbering-of-figures-and-tables" class="section level3">
+<h3>Auto-numbering of figures and tables</h3>
+<p>In the example above, we set a caption for a figure, but the figures are not automatically numbered in <code>rmarkdown</code>. To enable this, all you have to do is install the <code>bookdown</code> package, and replace the header with this example:</p>
+<pre><code>---
+title: &quot;Untitled&quot;
+output: bookdown::html_document2
+---
+</code></pre>
+<p>Everything else should work as expected, but now figures that contain a <code>fig.cap</code> setting will be automatically numbered!</p>
+</div>
+<div id="make-r-output-pretty" class="section level3">
+<h3>Make R output pretty</h3>
+<p>One thing you notice quickly is that R output that is usually printed to the screen, will look exactly the same in an rmarkdown document - ugly. For example, try this code chunk:</p>
+<pre class="{r}`r&#39;&#39;`"><code>summary(titanic) </code></pre>
+<p>The output in the HTML is not attractive, to say the least.</p>
+<p>A number of packages will convert raw R output to markdown or HTML output, which can be used effectively in rmarkdown documents. Here we recommend using the <code>pander</code> package to convert many R objects to readable output for use in rmarkdown documents, and the <code>kable</code> function from the <code>knitr</code> package to convert things that look like dataframes. Both packages are very easy to use.</p>
+<pre class="{r}`r&#39;&#39;`"><code>library(pander)    # for pander()
+library(knitr)     # for kable()
+library(magrittr)  # for %&gt;%
+
+summary(titanic) %&gt;% pander
+summary(titanic) %&gt;% kable</code></pre>
+<p>Try the <code>pander</code> function on many outputs from statistical analyses as well, for example:</p>
+<pre class="{r}`r&#39;&#39;`"><code>test_output &lt;- t.test(Age ~ Sex, data = titanic)
+pander(test_output)</code></pre>
+</div>
+</div>
+<div id="rmarkdownresources" class="section level2">
+<h2>Resources</h2>
+<p>The documentation for <code>rmarkdown</code> based documents is a little scattered across various sources. The reason for this is that multiple packages are involved in making an HTML page from an <code>.Rmd</code> file.</p>
+<ul>
+<li>The <code>knitr</code> package handles the <em>execution</em> of the R code in the document, and the <em>integration</em> of the R output into the document. It provides all options that are set at the top of each code chunk, for example to show or hide the code, to control figure size and resolution, captions for tables. All chunk options are <a href="https://yihui.name/knitr/options/">listed on the <code>knitr</code> website</a>.</li>
+<li>The <code>rmarkdown</code> package (from Rstudio) handles the <em>conversion</em> to the desired output format, for example HTML or PDF. To do so, it uses Pandoc (see below), which is installed automatically with Rstudio. The <code>rmarkdown</code> package provides all options at the top of the <code>Rmd</code> document (the so-called YAML header), including the desired output format, and to control many options like the table of contents, format style, custom CSS, and so on. All options for <code>rmarkdown</code> <a href="https://rmarkdown.rstudio.com/">are described on Rstudio’s website</a>. (Make sure to scroll down and select an output format to read about available options).</li>
+<li>Finally, Pandoc is the actual engine to convert our raw text file (including R output formatted by <code>knitr</code>) to an HTML page, or some other format. Normally you don’t have to learn much about Pandoc’s options, since many settings are already provided by <code>rmarkdown</code>, but <a href="https://pandoc.org/MANUAL.html">the various formatting rules and conversion options are described here</a>.</li>
+</ul>
+<p>A comprehensive list of useful and more advanced features in rmarkdown can be read here: <a href="https://holtzy.github.io/Pimp-my-rmd/" class="uri">https://holtzy.github.io/Pimp-my-rmd/</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

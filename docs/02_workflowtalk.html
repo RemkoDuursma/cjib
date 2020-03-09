@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>R Project Management</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'R Project Management',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Remko Duursma' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+  </style>
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides>
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+          </hgroup>
+  </slide>
+
+<slide class=""><hgroup><h2>Een &ldquo;Goed&rdquo; project</h2></hgroup><article  id="een-goed-project">
+
+<ol>
+<li>&ldquo;Reproducable&rdquo; : de analyse kan uitgevoerd worden op een andere machine, door een andere gebruiker, en/of (ver) in de toekomst</li>
+<li>Duidelijke instructies: hoe runnen we de analyse? Wat zijn de vereisten? Waar komen de outputs terecht?</li>
+<li>Logische folder structuur (code / data / output / settings)</li>
+<li>Een &lsquo;main&rsquo; script, waarmee de gehele analyse gestart kan worden</li>
+<li>Alleen werkende / noodzakelijke scripts in het project, geen rotzooi</li>
+<li>Gebruik van <em>functions</em> om code in logische brokken te organiseren</li>
+<li>Gebruik van een simpele <em>cache</em> om langdurende stappen op te slaan</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Reproducable research</h2></hgroup><article  id="reproducable-research">
+
+<ul>
+<li>Een ideaal project kan met gemak door een andere gebruiker gerund worden</li>
+<li>Een project moet in 1 folder georganiseerd zijn, met meerdere subfolders</li>
+<li>Als het project gekopieerd wordt naar een andere computer moet het werken, met minimale interventie van de gebruiker</li>
+<li>Het is 100% duidelijk welke code welke output (figuren, data, etc.) geproduceerd heeft</li>
+</ul>
+
+<p>Er zijn een aantal uitdagingen om een project zonder veel aanpassingen op een andere machine uit te voeren. Een aantal hiervan zijn,</p>
+
+<ol>
+<li>Platform. Werkt het project alleen op Windows?</li>
+<li>Is er behalve R andere software nodig? (Sommige R packages hebben ook systeem vereisten!)</li>
+<li>R Packages. Zijn de package afhankelijkheden minimaal? Zijn alle packages beschikbaar op CRAN?</li>
+<li>Blijft het project werken als een nieuwere versie van een package is geinstalleerd?</li>
+<li>Zijn er wachtwoorden nodig, bv. voor database toegang?</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Instructies</h2></hgroup><article  id="instructies">
+
+<p>Is er voldoende informatie om door iemand anders het project uit te laten voeren?</p>
+
+<p>Schrijf voor elk project een <code>README.md</code>, bv.:</p>
+
+<pre ># Almere Parkeerplaats Analyse
+
+Dit is de repository voor de analyse van parkeer data in Almere, van Maart tot November 2020.
+
+## Dependencies
+
+- R &gt; 3.6
+- Alle R packages worden geladen met het script `R/load_packages.R`.
+- Getest op Windows, Mac
+- Eenmalig internet verbinding nodig voor het downloaden van de data
+
+## Instructies
+
+- Voeg een `config.yml` bestand toe met wachtwoord informatie (zie hieronder).
+
+- Run het script &quot;main.R&quot;. Benodigde packages worden automatisch geinstalleerd.
+
+
+## Auteur
+
+Remko Duursma
+</pre>
+
+</article></slide><slide class=""><hgroup><h2>Logische folder structuur</h2></hgroup><article  id="logische-folder-structuur">
+
+<p>Er zijn veel mogelijkheden om de verschillende bestanden in een project te verdelen in een logische folder structuur.</p>
+
+<p>Dit is belangrijk:</p>
+
+<ul>
+<li>Houd <em>code</em>, <em>data</em>, en <em>output</em> altijd gescheiden</li>
+</ul>
+
+<p>Een minimaal voorbeeld:</p>
+
+<img src='../screenshots/folderstructuresmall.png' title=''/>
+
+<p>Er is 1 hoofd script, &ldquo;analysis.R&rdquo;, waarin alle analyses worden uitgevoerd.</p>
+
+<p>Hier is de <em>code</em> verdeeld in een aantal scripts in de <strong>R</strong> folder, en 1 hoofdscript (&ldquo;analysis.R&rdquo;) die andere scripts aanroept.</p>
+
+<p>De <em>data</em> bestanden zijn ondergebracht in <strong>data</strong>.</p>
+
+<p>Outputs (figuren, bewerkte datasets, etc.) worden geschreven naar <code>output/figures</code>, <code>output/data</code>, etc.</p>
+
+</article></slide><slide class=""><hgroup><h2>Werken met folders</h2></hgroup><article  id="werken-met-folders">
+
+<p>Gebruik nooit een compleet path naar je bestanden, bv:</p>
+
+<pre class = 'prettyprint lang-r'># Doe dit niet
+mydata &lt;- read.csv(&quot;c:/users/remko/project1/data/bestand1.csv&quot;)</pre>
+
+<p>Dit werkt niet op een andere machine.</p>
+
+<p>Folders binnen je project folder kun je met een &ldquo;relatief&rdquo; path opvragen:</p>
+
+<pre class = 'prettyprint lang-r'>mydata &lt;- read.csv(&quot;rawdata/bestand1.csv&quot;)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Main script</h2></hgroup><article  id="main-script">
+
+<p>Om andere scripts te runnen kun je <code>source</code> gebruiken.</p>
+
+<p>Op deze manier krijgt een hoofd script een duidelijke structuur.</p>
+
+<pre class = 'prettyprint lang-r'># Load packages
+source(&quot;R/load_packages&quot;)
+
+# Laad eigen functies.
+source(&quot;R/functions.R&quot;)
+
+# Configuratie
+conf &lt;- yaml::read_yaml(&quot;passwords.yml&quot;)
+
+# Lees de ruwe data
+main_data &lt;- read_raw_data(conf)
+
+# Make figures
+source(&quot;R/make_figures.R&quot;)
+
+# Regressie modellen
+source(&quot;R/linearmodels.R&quot;)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Geen rotzooi</h2></hgroup><article  id="geen-rotzooi">
+
+<ul>
+<li><p>Verwijder bestanden die je niet meer nodig hebt in het project.</p></li>
+<li><p>Sla <em>backups</em> van het project ergens anders op.</p></li>
+<li><p>Het idee is dat je een project netjes en &ldquo;portable&rdquo; maakt, zodat het makkelijk later / door iemand anders gebruikt kan worden.</p></li>
+<li><p>Met <em>git</em> kun je altijd oude code terugvinden, bv (vanuit bash):</p></li>
+</ul>
+
+<pre >git log -G verlorenfunctie</pre>
+
+<p>Met dit command zoekt <em>git</em> waar &ldquo;verlorenfunctie&rdquo; voorkomt in veranderde code (bv. waar de code was verwijderd).</p>
+
+</article></slide><slide class=""><hgroup><h2>Gebruik functies om code te organiseren</h2></hgroup><article  id="gebruik-functies-om-code-te-organiseren">
+
+<p>Het verdelen van code in aparte scripts is al een goede stap, maar voor een nog meer transparante en robuuste werkwijze is het aan te raden functies te schrijven.</p>
+
+<h3>Functies maken de flow van informatie duidelijk</h3>
+
+<p>(deel van een master script):</p>
+
+<pre class = 'prettyprint lang-r'># Lees configuratie
+.conf &lt;- yaml::read_yaml(&quot;config.yml&quot;)
+
+# Download ruwe data
+almere_parking_raw &lt;- download_almere_parking_data(.conf)
+
+# Schone versie
+almere_parking &lt;- clean_almere_data(almere_parking_raw)
+
+# Maak Figuur 1 (overzicht)
+to.pdf(
+  figure1(data = almere_parking), 
+  filename = &quot;output/figure1.pdf&quot;
+)</pre>
+
+<h3>Functies houden environment en geheugen schoon</h3>
+
+<p>Stel dat we deze functie hebben gemaakt om een dataset in te lezen:</p>
+
+<pre class = 'prettyprint lang-r'>download_almere_parking_data &lt;- function(conf){
+  
+  passw &lt;- conf$password
+  
+  db &lt;- DBI::dbConnect(database = &quot;db.almere.nl&quot;,
+                       password = passw)
+  
+  data &lt;- dbReadTable(db, &quot;almere_parking_current&quot;)
+  
+  dbDisconnect(db)
+  
+return(data)
+}</pre>
+
+<p>Als deze functie nu (vanuit een master script) wordt aangeroepen,</p>
+
+<pre class = 'prettyprint lang-r'>almere_parking_raw &lt;- download_almere_parking_data(.conf)</pre>
+
+<p>Dan zijn de objecten <code>passw</code>, <code>db</code> en <code>data</code> <strong>niet</strong> beschikbaar in het &lsquo;global environment&rsquo;. Deze objecten bestaan alleen tijdens de functie executie.</p>
+
+<p>Door het global environment niet te vervuilen met allerlei tijdelijke objecten, vermijden we:</p>
+
+<ul>
+<li><em>conflicten</em> : ik gebruik hier &ldquo;data&rdquo; als naam voor een object binnen een functie! Dit is veilig omdat dat object alleen binnen de functie bestaat.</li>
+<li><em>lekkage</em> van gevoelige info (het wachtwoord staat nu ook in <code>passw</code>!)</li>
+<li><em>overmatig gebruik van geheugen</em> : Grote objecten die alleen tijdelijk nodig zijn kunnen het beste binnen een functie gebruikt worden, dan komt het geheugen weer vrij als de functie klaar is.</li>
+</ul></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
