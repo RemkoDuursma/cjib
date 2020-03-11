@@ -92,76 +92,71 @@ slide:not(.current) .plotly.html-widget{
 
 <body style="opacity: 0">
 
-<slides>
+<slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Een &ldquo;Goed&rdquo; project</h2></hgroup><article  id="een-goed-project">
+<style>
+.smaller{
+    font-size: 10px;
+}
+.mediumsmall{
+  font-size: 15px;
+}
+
+</style>
+
+<slide class=""><hgroup><h2>Een &ldquo;Goed&rdquo; project</h2></hgroup><article  class="build" id="een-goed-project">
 
 <ol>
-<li>&ldquo;Reproducable&rdquo; : de analyse kan uitgevoerd worden op een andere machine, door een andere gebruiker, en/of (ver) in de toekomst</li>
-<li>Duidelijke instructies: hoe runnen we de analyse? Wat zijn de vereisten? Waar komen de outputs terecht?</li>
-<li>Logische folder structuur (code / data / output / settings)</li>
-<li>Een &lsquo;main&rsquo; script, waarmee de gehele analyse gestart kan worden</li>
-<li>Alleen werkende / noodzakelijke scripts in het project, geen rotzooi</li>
-<li>Gebruik van <em>functions</em> om code in logische brokken te organiseren</li>
-<li>Gebruik van een simpele <em>cache</em> om langdurende stappen op te slaan</li>
+<li><strong>Reproducable</strong> : de analyse kan uitgevoerd worden op een andere machine, door een andere gebruiker, en/of (ver) in de toekomst</li>
+<li>Duidelijke <strong>instructies</strong>: hoe runnen we de analyse? Wat zijn de vereisten? Waar komen de outputs terecht?</li>
+<li>Logische <strong>folder</strong> structuur (code / data / output / settings)</li>
+<li>Een <strong>main</strong> script, waarmee de gehele analyse gestart kan worden</li>
+<li>Alleen <strong>noodzakelijke</strong> scripts in het project, geen rotzooi</li>
+<li>Gebruik van <strong>functions</strong> om code in logische brokken te organiseren</li>
+<li>Gebruik van een simpele <strong>cache</strong> om langdurende stappen op te slaan</li>
+<li>Sla project configuratie op in een apart bestand (bv. YAML)</li>
+<li>Version control</li>
+<li>Gebruik van duidelijke <strong>namen</strong> voor objecten, data, functies</li>
 </ol>
 
 </article></slide><slide class=""><hgroup><h2>Reproducable research</h2></hgroup><article  id="reproducable-research">
 
 <ul>
 <li>Een ideaal project kan met gemak door een andere gebruiker gerund worden</li>
-<li>Een project moet in 1 folder georganiseerd zijn, met meerdere subfolders</li>
-<li>Als het project gekopieerd wordt naar een andere computer moet het werken, met minimale interventie van de gebruiker</li>
 <li>Het is 100% duidelijk welke code welke output (figuren, data, etc.) geproduceerd heeft</li>
+<li>Een project moet in 1 folder georganiseerd zijn, met meerdere subfolders. Hierdoor kun je een project makkelijk verplaatsen, delen, en met <em>version control</em> beheren.</li>
 </ul>
+
+<img src='screenshots/reprresearchbook.jpg' title=''/>
+
+</article></slide><slide class=""><hgroup><h2>Reproducable research (2)</h2></hgroup><article  id="reproducable-research-2">
 
 <p>Er zijn een aantal uitdagingen om een project zonder veel aanpassingen op een andere machine uit te voeren. Een aantal hiervan zijn,</p>
 
 <ol>
-<li>Platform. Werkt het project alleen op Windows?</li>
-<li>Is er behalve R andere software nodig? (Sommige R packages hebben ook systeem vereisten!)</li>
-<li>R Packages. Zijn de package afhankelijkheden minimaal? Zijn alle packages beschikbaar op CRAN?</li>
+<li><strong>Platform</strong>. Werkt het project alleen op Windows?</li>
+<li>Is er behalve R andere <strong>software</strong> nodig? (Sommige R packages hebben ook systeem vereisten!)</li>
+<li><strong>R Packages</strong>. Zijn de package afhankelijkheden minimaal? Zijn alle packages beschikbaar op CRAN?</li>
 <li>Blijft het project werken als een nieuwere versie van een package is geinstalleerd?</li>
-<li>Zijn er wachtwoorden nodig, bv. voor database toegang?</li>
+<li>Zijn er <strong>wachtwoorden</strong> nodig, bv. voor database toegang?</li>
 </ol>
 
 </article></slide><slide class=""><hgroup><h2>Instructies</h2></hgroup><article  id="instructies">
 
 <p>Is er voldoende informatie om door iemand anders het project uit te laten voeren?</p>
 
-<p>Schrijf voor elk project een <code>README.md</code>, bv.:</p>
+<p>Behalve genoeg <em>comments</em> in de code, schrijf voor elk project een <code>README.md</code>, bv.:</p>
 
-<pre ># Almere Parkeerplaats Analyse
-
-Dit is de repository voor de analyse van parkeer data in Almere, van Maart tot November 2020.
-
-## Dependencies
-
-- R &gt; 3.6
-- Alle R packages worden geladen met het script `R/load_packages.R`.
-- Getest op Windows, Mac
-- Eenmalig internet verbinding nodig voor het downloaden van de data
-
-## Instructies
-
-- Voeg een `config.yml` bestand toe met wachtwoord informatie (zie hieronder).
-
-- Run het script &quot;main.R&quot;. Benodigde packages worden automatisch geinstalleerd.
-
-
-## Auteur
-
-Remko Duursma
-</pre>
+<img src='screenshots/readmemd.png' title=''/>
 
 </article></slide><slide class=""><hgroup><h2>Logische folder structuur</h2></hgroup><article  id="logische-folder-structuur">
 
@@ -175,15 +170,9 @@ Remko Duursma
 
 <p>Een minimaal voorbeeld:</p>
 
-<img src='../screenshots/folderstructuresmall.png' title=''/>
+<img src='screenshots/folderstructuresmall.png' title=''/>
 
-<p>Er is 1 hoofd script, &ldquo;analysis.R&rdquo;, waarin alle analyses worden uitgevoerd.</p>
-
-<p>Hier is de <em>code</em> verdeeld in een aantal scripts in de <strong>R</strong> folder, en 1 hoofdscript (&ldquo;analysis.R&rdquo;) die andere scripts aanroept.</p>
-
-<p>De <em>data</em> bestanden zijn ondergebracht in <strong>data</strong>.</p>
-
-<p>Outputs (figuren, bewerkte datasets, etc.) worden geschreven naar <code>output/figures</code>, <code>output/data</code>, etc.</p>
+<p>Er is 1 hoofd script, &ldquo;analysis.R&rdquo;, waarin alle analyses worden uitgevoerd. Verder is alles ondergebracht in sub-folders.</p>
 
 </article></slide><slide class=""><hgroup><h2>Werken met folders</h2></hgroup><article  id="werken-met-folders">
 
@@ -200,9 +189,7 @@ mydata &lt;- read.csv(&quot;c:/users/remko/project1/data/bestand1.csv&quot;)</pr
 
 </article></slide><slide class=""><hgroup><h2>Main script</h2></hgroup><article  id="main-script">
 
-<p>Om andere scripts te runnen kun je <code>source</code> gebruiken.</p>
-
-<p>Op deze manier krijgt een hoofd script een duidelijke structuur.</p>
+<p>Om andere scripts te runnen kun je <code>source</code> gebruiken. Op deze manier krijgt een hoofd script een duidelijke structuur.</p>
 
 <pre class = 'prettyprint lang-r'># Load packages
 source(&quot;R/load_packages&quot;)
@@ -235,13 +222,9 @@ source(&quot;R/linearmodels.R&quot;)</pre>
 
 <p>Met dit command zoekt <em>git</em> waar &ldquo;verlorenfunctie&rdquo; voorkomt in veranderde code (bv. waar de code was verwijderd).</p>
 
-</article></slide><slide class=""><hgroup><h2>Gebruik functies om code te organiseren</h2></hgroup><article  id="gebruik-functies-om-code-te-organiseren">
+</article></slide><slide class=""><hgroup><h2>Functies maken de flow van informatie duidelijk</h2></hgroup><article  id="functies-maken-de-flow-van-informatie-duidelijk">
 
-<p>Het verdelen van code in aparte scripts is al een goede stap, maar voor een nog meer transparante en robuuste werkwijze is het aan te raden functies te schrijven.</p>
-
-<h3>Functies maken de flow van informatie duidelijk</h3>
-
-<p>(deel van een master script):</p>
+<p>Welke outputs zijn gebaseerd op welke inputs?</p>
 
 <pre class = 'prettyprint lang-r'># Lees configuratie
 .conf &lt;- yaml::read_yaml(&quot;config.yml&quot;)
@@ -258,7 +241,7 @@ to.pdf(
   filename = &quot;output/figure1.pdf&quot;
 )</pre>
 
-<h3>Functies houden environment en geheugen schoon</h3>
+</article></slide><slide class=""><hgroup><h2>Functies houden het geheugen schoon</h2></hgroup><article  id="functies-houden-het-geheugen-schoon">
 
 <p>Stel dat we deze functie hebben gemaakt om een dataset in te lezen:</p>
 
@@ -276,11 +259,15 @@ to.pdf(
 return(data)
 }</pre>
 
+</article></slide><slide class=""><hgroup><h2>Functies houden het geheugen schoon (2)</h2></hgroup><article  id="functies-houden-het-geheugen-schoon-2">
+
 <p>Als deze functie nu (vanuit een master script) wordt aangeroepen,</p>
 
 <pre class = 'prettyprint lang-r'>almere_parking_raw &lt;- download_almere_parking_data(.conf)</pre>
 
 <p>Dan zijn de objecten <code>passw</code>, <code>db</code> en <code>data</code> <strong>niet</strong> beschikbaar in het &lsquo;global environment&rsquo;. Deze objecten bestaan alleen tijdens de functie executie.</p>
+
+</article></slide><slide class=""><hgroup><h2>Functies houden het geheugen schoon (3)</h2></hgroup><article  id="functies-houden-het-geheugen-schoon-3">
 
 <p>Door het global environment niet te vervuilen met allerlei tijdelijke objecten, vermijden we:</p>
 
@@ -288,7 +275,98 @@ return(data)
 <li><em>conflicten</em> : ik gebruik hier &ldquo;data&rdquo; als naam voor een object binnen een functie! Dit is veilig omdat dat object alleen binnen de functie bestaat.</li>
 <li><em>lekkage</em> van gevoelige info (het wachtwoord staat nu ook in <code>passw</code>!)</li>
 <li><em>overmatig gebruik van geheugen</em> : Grote objecten die alleen tijdelijk nodig zijn kunnen het beste binnen een functie gebruikt worden, dan komt het geheugen weer vrij als de functie klaar is.</li>
-</ul></article></slide>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Gebruik een (simpele) cache voor langdurende stappen</h2></hgroup><article  class="build" id="gebruik-een-simpele-cache-voor-langdurende-stappen">
+
+<ul>
+<li><p>Vaak zijn een of meerdere stappen in een analyse tijdrovend. We slaan het liefst deze stappen over als we het hele project runnen.</p></li>
+<li><p>Gebruik nooit de setting in Rstudio (Tools/Global Options/General/Workspace) om automatisch oude objecten te laden.</p></li>
+<li><p>Gebruik altijd <strong>RDS</strong> om objecten tijdelijk mee op te slaan. Dit zijn exacte kopieen van objecten in R.</p></li>
+<li><p>Schrijf je eigen simpele systeem (volgende slide) om optioneel data te lezen uit een <em>cache</em>.</p></li>
+<li><p>Of kijk naar <code>drake</code>, een geavanceerd systeem om een workflow te definieren, en alleen objecten opnieuw te maken wanneer nodig (<a href='https://github.com/ropensci/drake' title=''>https://github.com/ropensci/drake</a>).</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Gebruik een (simpele) cache voor langdurende stappen (2)</h2></hgroup><article  id="gebruik-een-simpele-cache-voor-langdurende-stappen-2">
+
+<pre class = 'prettyprint lang-r'>slow_process &lt;- function(){
+  # Een langdurende functie, of een functie die niet altijd werkt
+  # Bv: internet verbinding nodig.
+}
+
+fn &lt;- &quot;cache/slow_object.rds&quot;
+
+if(!file.exists(fn)){
+  slow_object &lt;- slow_process()
+  saveRDS(slow_object, fn)
+} else {
+  slow_object &lt;- readRDS(fn)
+}</pre>
+
+<p>Simpeler wordt het niet. Om de cache niet te gebruiken, verwijder alle bestanden in <code>cache/</code>.</p>
+
+</article></slide><slide class=""><hgroup><h2>Sla configuratie op in een apart bestand</h2></hgroup><article  id="sla-configuratie-op-in-een-apart-bestand">
+
+<p>Veel projecten gebruiken allerlei settings, zoals wachtwoorden, data lokaties, model versies, kleuren, etc.</p>
+
+<p><strong>Verzamel</strong> alle settings in een centrale lokatie, op zijn minst een apart script, of vaak handiger in een apart bestand in YAML format:</p>
+
+<pre >database:
+  user: remkoduursma
+  password: 123hello123
+  table: almere_parking
+
+colors:
+  barplot: [&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;]
+</pre>
+
+</article></slide><slide class=""><hgroup><h2>Sla configuratie op in een apart bestand (2)</h2></hgroup><article  id="sla-configuratie-op-in-een-apart-bestand-2">
+
+<p>Sla dit op als bv. <code>config.yml</code>, en lees het in met:</p>
+
+<pre >.conf &lt;- yaml::read_yaml(&quot;config.yml&quot;)</pre>
+
+<p>De settings zijn nu ingelezen als een <em>list</em>, bv. <code>.conf$database$table</code>.</p>
+
+</article></slide><slide class=""><hgroup><h2>Alles heeft een naam</h2></hgroup><article  id="alles-heeft-een-naam">
+
+<p>Het is heel belangrijk voor leesbare scripts om goede namen te gebruiken.</p>
+
+<p>Doe dit <strong>niet</strong>:</p>
+
+<ul>
+<li><em>Te</em> algemene namen voor objecten (<code>data</code>, <code>summary</code>, <code>dataset</code>)</li>
+<li>Korte namen (<code>d</code>, <code>y</code>, <code>y2</code>)</li>
+<li>Gebruik van symbolen (gebruik alleen letters, cijfers, <code>_</code>)</li>
+</ul>
+
+<p>Doe dit <strong>wel</strong>:</p>
+
+<ul>
+<li>Gebruik voor alle eigen objecten en functies <em>snake_case</em></li>
+</ul>
+
+<p><code>read_almere_parking_data</code>, <code>convert_date_to_time</code>, <code>to_sql_string</code>, <code>figure1</code></p>
+
+<ul>
+<li>Soms is <em>camelCase</em> populair, maar ik vind het in lange scripts veel minder leesbaar.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Alles heeft een naam (2)</h2></hgroup><article  id="alles-heeft-een-naam-2">
+
+<p>Het voorgaande geldt voor objecten die in het Global Environment beschikbaar zijn. Leesbare namen helpen om de code duidelijk te houden.</p>
+
+<p>Binnen <strong>functies</strong> geldt een heel ander idee: hier kunnen argumenten juist heel algemeen zijn.</p>
+
+<p>Objecten binnen een functie zijn alleen zichtbaar binnen de functie.</p>
+
+<pre class = 'prettyprint lang-r'>append_database_row &lt;- function(data, connection){
+  
+  dbWriteTable(connection, data, append = TRUE)
+  
+}</pre>
+
+<p>Omdat dit een heel algemene functie is, zijn argumenten <code>data</code> en <code>connection</code> juist prima. Interne R functies hergebruiken ook veel standaard argument namen (<code>x</code>, <code>data</code>, etc.).</p></article></slide>
 
 
   <slide class="backdrop"></slide>

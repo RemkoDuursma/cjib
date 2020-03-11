@@ -99,7 +99,7 @@ slide:not(.current) .plotly.html-widget{
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
             <p style="margin-top: 6px; margin-left: -2px;">5 March 2020</p>
           </hgroup>
@@ -113,7 +113,15 @@ slide:not(.current) .plotly.html-widget{
 <li>Keep a <strong>history</strong> of all the changes you have made to your code.</li>
 <li>Be able to <strong>revert</strong> to an old version, or briefly look around in old code, or find any code you have written in at some time in the past.</li>
 <li><strong>Undo</strong> fatal coding mistakes.</li>
-<li><strong>Avoid multiple versions</strong> of the same script (<code>myscrip_v1.R</code>, <code>myscript_v1_mod2.R</code> etc.), and commented-out bits of code that you no longer need.</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Why version control?</h2></hgroup><article  id="why-version-control-1">
+
+<p>With git version control you can:</p>
+
+<ol>
+<li><strong>Avoid multiple versions</strong> of the same script (<code>myscrip_v1.R</code>, <code>myscript_v1_mod2.R</code> etc.)</li>
+<li>Keep code clean, deleting commented-out code that you no longer need.</li>
 <li><strong>Collaborate</strong> with others on the same code, and easily merge the changes you and your collaborators make.</li>
 <li>Maintain an <strong>online backup</strong> of your code base, and allow easy <strong>sharing</strong> of that code with others.</li>
 </ol>
@@ -125,7 +133,7 @@ slide:not(.current) .plotly.html-widget{
 <li>The repository is stored in a hidden subfolder (<code>.git</code>)</li>
 </ul>
 
-<img src='screenshots/gitfolder.git' title=''/>
+<img src='screenshots/gitfolder.png' title=''/>
 
 <ul>
 <li>Here, git can <em>see</em> all the changes to files in the root (&ldquo;main.R&rdquo;) and all its subfolders (R, data, output, …).</li>
@@ -140,7 +148,7 @@ slide:not(.current) .plotly.html-widget{
 <li>You can decide which changes to keep, and which ones to discard.</li>
 </ul>
 
-<img src='screenshots/gitfolder.git' title=''/>
+<img src='screenshots/gitfirststaging.png' title=''/>
 
 <p>The first time you &ldquo;initialize&rdquo; git in a folder.</p>
 

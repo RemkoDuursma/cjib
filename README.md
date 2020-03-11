@@ -1,1 +1,1 @@
-# Marine Research Workshop
+# CJIB Training

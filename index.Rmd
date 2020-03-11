@@ -9,7 +9,6 @@ output:
 CJIB, Maart 2020
 
 
-
 ### Syllabus
 
 Voor deze training gebruiken we een selectie van het boek:
@@ -19,19 +18,109 @@ Voor deze training gebruiken we een selectie van het boek:
 door [Remko Duursma](https://www.remkoduursma.com)
 
 
-- [Chapter 4 : R Programming: Lists, Functions, and Loops](https://remkoduursma.github.io/learningguidetor/programming.html)
-- [Chapter 6 : Version control with git and Rstudio](https://remkoduursma.github.io/learningguidetor/versioncontrol.html)
-- [Chapter 7 : R Project management](https://remkoduursma.github.io/learningguidetor/projectman.html)
-- [Chapter 8 : Mastering R Package Dependencies](https://remkoduursma.github.io/learningguidetor/rpackages.html)
 
-Om het boek te **printen**, klik op de PDF link in het online boek. 
-
-Oplossingen van de opgaven kun je [hier vinden](compiled_html/lgr_exercises.html).
+### Dag 1
 
 
-#### Voorbeeld project
+#### Ochtend
+
+1. Rstudio Projects
+  
+    Section 7.2, [Set up a project in Rstudio](https://remkoduursma.github.io/learningguidetor/projectman.html#rstudioprojects)
+
+<hr>
+
+2. Version control met *git*
+
+    Presentatie: [Version control with git](03_versioncontrol.html)
+
+   [Chapter 6 : Version control with git and Rstudio](https://remkoduursma.github.io/learningguidetor/versioncontrol.html)
 
 
+<hr>
+
+3. Oefenen met voorbeeld project
+
+
+<hr>
+
+#### Middag
+
+1. R Project Management
+
+    Presentatie: [R Project Management](02_workflowtalk.html) 
+
+    [Chapter 7 : R Project management](https://remkoduursma.github.io/learningguidetor/projectman.html)
+
+<hr>
+
+2. Oefenen met voorbeeld project
+
+    Almere Parking:
+    https://github.com/RemkoDuursma/cjibexample.git
+
+<hr>
+
+3. Automatisch Rapporteren met `rmarkdown`
+
+    Tekst : [Making reports with rmarkdown](04_rmarkdown.html)
+
+<hr>
+
+4. Oefenen met voorbeeld project of andere delen van de online syllabus.
+
+<hr>
+
+
+### Dag 2
+
+
+#### Ochtend
+
+1. Functies, lists, en loops
+
+    4.1, 4.2, 4.3 en 4.4 uit [Chapter 4 : R Programming: Lists, Functions, and Loops](https://remkoduursma.github.io/learningguidetor/programming.html)
+
+<hr>
+
+2. Functies: geavanceerde concepten
+
+    4.5, 4.6 uit bovenstaande chapter.
+
+<hr>
+
+3. Oefenen met eigen project / voorbeeld project / oefeningen
+
+<hr>
+
+#### Middag
+
+1. R Packages begrijpen, robuuste projecten maken.
+
+    [Chapter 8 : Mastering R Package Dependencies](https://remkoduursma.github.io/learningguidetor/rpackages.html)
+
+<hr>
+
+2. Oefenen met eigen project
+
+
+<hr>
+
+3. Extra onderwerp, keuze uit: 
+
+- Data bewerken en samenvatten met `dplyr` en `tidyr`
+- Werken met databases in R: `DBI`
+- Werken met web services (werken met APIs, *web scraping*)
+- Unit testing (automatisch code testen)
+- R Packages samenstellen
+
+<hr>
+
+4. Oefenen met eigen project / extra onderwerpen
+
+<hr>
+
+<hr>
 
 
 
