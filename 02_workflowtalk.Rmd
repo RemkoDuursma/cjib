@@ -16,19 +16,19 @@ output:
 
 </style>
 
-## Een "Goed" project {.build}
+## Een "Goed" project
 
 
-1. **Reproducable** : de analyse kan uitgevoerd worden op een andere machine, door een andere gebruiker, en/of (ver) in de toekomst
-2. Duidelijke **instructies**: hoe runnen we de analyse? Wat zijn de vereisten? Waar komen de outputs terecht?
-3. Logische **folder** structuur (code / data / output / settings)
-4. Een **main** script, waarmee de gehele analyse gestart kan worden
-5. Alleen **noodzakelijke** scripts in het project, geen rotzooi
-6. Gebruik van **functions** om code in logische brokken te organiseren
-7. Gebruik van een simpele **cache** om langdurende stappen op te slaan
-8. Sla project configuratie op in een apart bestand (bv. YAML)
-9. Version control
-10. Gebruik van duidelijke **namen** voor objecten, data, functies
+> 1. **Reproducable** : de analyse kan uitgevoerd worden op een andere machine, door een andere gebruiker, en/of (ver) in de toekomst
+> 2. Duidelijke **instructies**: hoe runnen we de analyse? Wat zijn de vereisten? Waar komen de outputs terecht?
+> 3. Logische **folder** structuur (code / data / output / settings)
+> 4. Een **main** script, waarmee de gehele analyse gestart kan worden
+> 5. Alleen **noodzakelijke** scripts in het project, geen rotzooi
+> 6. Gebruik van **functions** om code in logische brokken te organiseren
+> 7. Gebruik van een simpele **cache** om langdurende stappen op te slaan
+> 8. Sla project configuratie op in een apart bestand (bv. YAML)
+> 9. Version control
+> 10. Gebruik van duidelijke **namen** voor objecten, data, functies
 
 
 

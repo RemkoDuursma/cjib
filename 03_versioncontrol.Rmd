@@ -2,7 +2,9 @@
 title: "Version control with git and Rstudio"
 author: "Remko Duursma"
 date: "5 March 2020"
-output: ioslides_presentation
+output: 
+  ioslides_presentation:
+    widescreen: true
 ---
 
 
@@ -14,6 +16,7 @@ With git version control you can:
 2. Be able to **revert** to an old version, or briefly look around in old code, or find any code you have written in at some time in the past.
 3. **Undo** fatal coding mistakes.
 
+![](screenshots/git.png)
 
 ## Why version control?
 
@@ -73,6 +76,7 @@ git repositories are **always local**, and optionally you can sync with a remote
 * You can also fetch changes in the remote not on your computer (**pull**)
 * These changes can be from a collaborator, or from yourself on another computer
 
+![](screenshots/gitremotes.png)
 
 ## git, github, bitbucket
 
@@ -86,6 +90,8 @@ git repositories are **always local**, and optionally you can sync with a remote
 * Rstudio has a convenient GUI to use basic functionality of git
 * You can also use *git* from the command line, which we need sometimes.
 * Also, when you have *many* files in your repository to stage, the Rstudio menu can be very slow
+
+![](screenshots/gitrstudio.png)
 
 
 ## Installing
