@@ -76,8 +76,6 @@ git repositories are **always local**, and optionally you can sync with a remote
 * You can also fetch changes in the remote not on your computer (**pull**)
 * These changes can be from a collaborator, or from yourself on another computer
 
-![](screenshots/gitremotes.png)
-
 ## git, github, bitbucket
 
 * *git* is the actual version control system

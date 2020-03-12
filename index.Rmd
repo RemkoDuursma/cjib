@@ -35,6 +35,8 @@ door [Remko Duursma](https://www.remkoduursma.com)
     Presentatie: [Version control with git](03_versioncontrol.html)
 
    [Chapter 6 : Version control with git and Rstudio](https://remkoduursma.github.io/learningguidetor/versioncontrol.html)
+   
+   [Oefeningen met git, github, Rstudio en command line](05_versioncontrol_example.html).
 
 
 <hr>

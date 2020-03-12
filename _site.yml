@@ -5,8 +5,6 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Slides"
-      href: presentaties.html
     - text: "Links"
       href: links.html
 output:
