@@ -1,0 +1,43 @@
+---
+title: "Deel 2-1"
+author: "Remko Duursma"
+date: "14 Mei 2020"
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+
+
+## R & Rstudio Advanced | "Dag" 2 - Deel 1
+
+<div class="columns-2">
+
+  
+- Rstudio Projects
+
+- Folder structuur
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+- git
+  - local / remote
+  - command line
+  - stage, commit
+  - push, pull
+  - history
+  - reset / revert / look around
+  - collaborate
+
+</div>
+
+
+
+
+
+

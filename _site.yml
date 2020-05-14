@@ -1,7 +1,7 @@
-name: "Marine Research Workshop"
+name: "CJIB R Cursus"
 output_dir: docs
 navbar:
-  title: "R Workshop"
+  title: "R & Rstudio Advanced"
   left:
     - text: "Home"
       href: index.html

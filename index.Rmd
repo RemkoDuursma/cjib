@@ -72,56 +72,43 @@ door [Remko Duursma](https://www.remkoduursma.com)
 <hr>
 
 
-### Dag 2
+### "Dag" 2
+
+Elk deel van 2 uur bestaat uit ca. 1 uur demo sessie, gevolgd door tijd om zelf te oefenen / vragen te stellen. 
+Elke sessie van 2 uur wordt opgenomen en gedeeld met iedereen (maar niet publiek toegankelijk gemaakt).
 
 
-#### Ochtend
 
-1. Functies, lists, en loops
+#### Deel 1 (14 Mei)
+
+- Herhaling Dag 1: Rstudio projects / folder structuur / git
+
+
+<hr>
+
+#### Deel 2 (28 Mei)
+
+- Functies, lists, en loops
 
     4.1, 4.2, 4.3 en 4.4 uit [Chapter 4 : R Programming: Lists, Functions, and Loops](https://remkoduursma.github.io/learningguidetor/programming.html)
 
+
 <hr>
 
-2. Functies: geavanceerde concepten
+#### Deel 3 (4 Juni)
+
+- Functies: geavanceerde concepten
 
     4.5, 4.6 uit bovenstaande chapter.
 
-<hr>
-
-3. Oefenen met eigen project / voorbeeld project / oefeningen
+- Gebruik van functies om projecten in te delen (voorbeeld project)
 
 <hr>
 
-#### Middag
 
-1. R Packages begrijpen, robuuste projecten maken.
+#### Deel 4 (11 Juni)
 
-    [Chapter 8 : Mastering R Package Dependencies](https://remkoduursma.github.io/learningguidetor/rpackages.html)
-
-<hr>
-
-2. Oefenen met eigen project
-
-
-<hr>
-
-3. Extra onderwerp, keuze uit: 
-
-- Data bewerken en samenvatten met `dplyr` en `tidyr`
-- Werken met databases in R: `DBI`
-- Werken met web services (werken met APIs, *web scraping*)
-- Unit testing (automatisch code testen)
-- R Packages samenstellen
-
-<hr>
-
-4. Oefenen met eigen project / extra onderwerpen
-
-<hr>
-
-<hr>
-
+- In overleg!
 
 
 
