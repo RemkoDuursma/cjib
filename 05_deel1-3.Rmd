@@ -1,0 +1,126 @@
+---
+title: "Functies in R"
+author: "Remko Duursma"
+date: "28 Mei 2020"
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+  
+  
+## R & Rstudio Advanced | "Dag" 2 - Deel 2
+  
+
+
+- Motivatie: schrijf je eigen functies
+- Eenvoudige functies
+- Batch analysis: gebruik functies om veel analyses tegelijk te doen
+- Functies: extra tips & tricks
+
+
+
+## Waarom zou ik mijn eigen functies schrijven?
+
+*Een script is toch ook prima?*
+
+1. Vermijden van duplicatie van code
+2. Leesbaar maken van complexe code
+3. Voorkom fouten door hergebruik standaard functies
+4. Batch analysis: veel analyses in 1 stap
+5. Ontwikkel een verzameling van generieke functies (R packages)
+
+
+## Duplicatie van code
+
+*Wat is er mis met Ctrl-C, Ctrl-V?*
+
+- Slechts 1 definitie van de functie, meerdere toepassingen
+- Wil je iets aanpassen? Dat hoeft alleen in de functie definitie.
+- Functie definities kunnen in een apart script: minder code in het 'main' script
+
+
+
+## Leesbaar maken van complexe code (1)
+
+```{r}
+library(stringr)
+melding <- "Hoofdstraat 12, 5524 AJ, Geeneveen"
+pc <- str_extract(melding, "[0-9]{4}[[:space:]]+[a-zA-Z]{2}")
+pc_ns <- str_replace(pc, "[[:space:]]", "")
+out <- str_replace(melding, pc, pc_ns)
+out[is.na(out)] <- melding[is.na(out)]
+out
+```
+
+
+## Leesbaar maken van complexe code (2)
+
+```{r}
+# ./R/functies.R
+remove_postcode_space <- function(x){
+  pc <- stringr::str_extract(x, "[0-9]{4}[[:space:]]+[a-zA-Z]{2}")
+  pc_ns <- stringr::str_replace(pc, "[[:space:]]", "")
+  out <- stringr::str_replace(x, pc, pc_ns)
+  out[is.na(out)] <- x[is.na(out)]
+out
+}
+
+# main.R
+remove_postcode_space("Hoofdstraat 12, 5524 AJ, Geeneveen")
+
+```
+
+
+## Voorkom fouten door hergebruik standaard functies
+
+Dit kan, maar weet je zeker dat je nooit een typefout maakt?
+
+```{r eval = FALSE}
+mijndata$afstand_km <- mijndata$afstand_mijl / 0.6214
+```
+
+Beter om conversie functies te schrijven, met een duidelijke naam:
+
+```{r eval = FALSE}
+mijl_naar_kilometer <- function(x){
+  x / 0.6214
+}
+
+mijndata <- mutate(mijndata,
+                   afstand_km = mijl_naar_kilometer(afstand_mijl))
+```
+
+
+## Batch analysis (1)
+
+Komt dit bekend voor?
+
+```{r eval=FALSE}
+data_a <- filter(mijndata, groep == "A")
+fit_a <- lm(y ~ x, data = data_a)
+summary(fit_a)
+
+data_b <- filter(mijndata, groep == "B")
+fit_b <- lm(y ~ x, data = data_b)
+summary(fit_b)
+```
+
+
+
+
+## Batch analysis (2)
+
+Een meer algemene oplossing:
+
+```{r eval=FALSE}
+model_fits <- split(mijndata, mijndata$groep) %>%
+  lapply(., function(data)lm(y ~ x, data = data))
+
+lapply(model_fits, summary)
+```
+
+
+
+
+
+  

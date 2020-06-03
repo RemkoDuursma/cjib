@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Functies in R</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Functies in R',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Remko Duursma' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+  </style>
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">28 Mei 2020</p>
+          </hgroup>
+  </slide>
+
+<slide class=""><hgroup><h2>R &amp; Rstudio Advanced </h2><h3> &ldquo;Dag&rdquo; 2 - Deel 2</h3></hgroup><article  id="r-rstudio-advanced-dag-2---deel-2">
+
+<ul>
+<li>Motivatie: schrijf je eigen functies</li>
+<li>Eenvoudige functies</li>
+<li>Batch analysis: gebruik functies om veel analyses tegelijk te doen</li>
+<li>Functies: extra tips &amp; tricks</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Waarom zou ik mijn eigen functies schrijven?</h2></hgroup><article  id="waarom-zou-ik-mijn-eigen-functies-schrijven">
+
+<p><em>Een script is toch ook prima?</em></p>
+
+<ol>
+<li>Vermijden van duplicatie van code</li>
+<li>Leesbaar maken van complexe code</li>
+<li>Voorkom fouten door hergebruik standaard functies</li>
+<li>Batch analysis: veel analyses in 1 stap</li>
+<li>Ontwikkel een verzameling van generieke functies (R packages)</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Duplicatie van code</h2></hgroup><article  id="duplicatie-van-code">
+
+<p><em>Wat is er mis met Ctrl-C, Ctrl-V?</em></p>
+
+<ul>
+<li>Slechts 1 definitie van de functie, meerdere toepassingen</li>
+<li>Wil je iets aanpassen? Dat hoeft alleen in de functie definitie.</li>
+<li>Functie definities kunnen in een apart script: minder code in het &lsquo;main&rsquo; script</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Leesbaar maken van complexe code</h2></hgroup><article  id="leesbaar-maken-van-complexe-code">
+
+<pre class = 'prettyprint lang-r'>library(stringr)
+melding &lt;- &quot;Hoofdstraat 12, 5524 AJ, Geeneveen&quot;
+pc &lt;- str_extract(melding, &quot;[0-9]{4}[[:space:]]+[a-zA-Z]{2}&quot;)
+pc_ns &lt;- str_replace(pc, &quot;[[:space:]]&quot;, &quot;&quot;)
+out &lt;- str_replace(melding, pc, pc_ns)
+out[is.na(out)] &lt;- melding[is.na(out)]
+out</pre>
+
+<pre >## [1] &quot;Hoofdstraat 12, 5524AJ, Geeneveen&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Leesbaar maken van complexe code</h2></hgroup><article  id="leesbaar-maken-van-complexe-code-1">
+
+<pre class = 'prettyprint lang-r'># ./R/functies.R
+remove_postcode_space &lt;- function(x){
+  pc &lt;- stringr::str_extract(x, &quot;[0-9]{4}[[:space:]]+[a-zA-Z]{2}&quot;)
+  pc_ns &lt;- stringr::str_replace(pc, &quot;[[:space:]]&quot;, &quot;&quot;)
+  out &lt;- stringr::str_replace(x, pc, pc_ns)
+  out[is.na(out)] &lt;- x[is.na(out)]
+out
+}
+
+# main.R
+remove_postcode_space(&quot;Hoofdstraat 12, 5524 AJ, Geeneveen&quot;)</pre>
+
+<pre >## [1] &quot;Hoofdstraat 12, 5524AJ, Geeneveen&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Voorkom fouten door hergebruik standaard functies</h2></hgroup><article  id="voorkom-fouten-door-hergebruik-standaard-functies">
+
+<p>Dit kan, maar weet je zeker dat je nooit een typefout maakt?</p>
+
+<pre class = 'prettyprint lang-r'>mijndata$afstand_km &lt;- mijndata$afstand_mijl / 0.6214</pre>
+
+<p>Beter om conversie functies te schrijven, met een duidelijke naam:</p>
+
+<pre class = 'prettyprint lang-r'>mijl_naar_kilometer &lt;- function(x){
+  x / 0.6214
+}
+
+mijndata &lt;- mutate(mijndata,
+                   afstand_km = mijl_naar_kilometer(afstand_mijl))</pre>
+
+</article></slide><slide class=""><hgroup><h2>Batch analysis (1)</h2></hgroup><article  id="batch-analysis-1">
+
+<p>Komt dit bekend voor?</p>
+
+<pre class = 'prettyprint lang-r'>data_a &lt;- filter(mijndata, groep == &quot;A&quot;)
+fit_a &lt;- lm(y ~ x, data = data_a)
+summary(fit_a)
+
+data_b &lt;- filter(mijndata, groep == &quot;B&quot;)
+fit_b &lt;- lm(y ~ x, data = data_b)
+summary(fit_b)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Batch analysis (2)</h2></hgroup><article  id="batch-analysis-2">
+
+<p>Een meer algemene oplossing:</p>
+
+<pre class = 'prettyprint lang-r'>model_fits &lt;- split(mijndata, mijndata$groep) %&gt;%
+  lapply(., function(data)lm(y ~ x, data = data))
+
+lapply(model_fits, summary)</pre></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
