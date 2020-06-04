@@ -27,6 +27,7 @@ output:
 2. Leesbaar maken van complexe code
 3. Voorkom fouten door hergebruik standaard functies
 4. Batch analysis: veel analyses in 1 stap
+5. 'Wrapper' functies: instellen argumenten van andere functies
 5. Ontwikkel een verzameling van generieke functies (R packages)
 
 
@@ -90,10 +91,37 @@ mijndata <- mutate(mijndata,
                    afstand_km = mijl_naar_kilometer(afstand_mijl))
 ```
 
+## Wrapper functies
+
+Gebruik je bij het aanroepen van ingebouwde functies heel vaak dezelfde argumenten?
+
+Schrijf een functie eromheen!
+
+
+```{r}
+#Plot altijd met `pch = 19` (filled circles) in plaats van de default.
+plot(mtcars$wt, mtcars$disp, pch = 19)
+```
+
+In een functie,
+
+```{r}
+# Zet een nieuwe default voor pch - stuur door naar plot().
+plot_solid <- function(..., pch = 19){
+  plot(..., pch = pch)
+}
+```
+
+
+
+
+
 
 ## Batch analysis (1)
 
-Komt dit bekend voor?
+Herhalen van analyses (of rapportage, grafieken, etc.) voor delen van de data.
+
+*Komt dit bekend voor?*
 
 ```{r eval=FALSE}
 data_a <- filter(mijndata, groep == "A")
@@ -119,6 +147,21 @@ model_fits <- split(mijndata, mijndata$groep) %>%
 lapply(model_fits, summary)
 ```
 
+
+
+
+## R Packages
+
+
+- Als je een verzameling 'generieke' functies hebt ontwikkeld, gebruik dan een R package.
+- Documentatie (`?mijnfunctie`) kan met gemak gescrheven worden.
+- Package kan door iedereen snel geinstalleerd worden.
+- Automatische tests.
+- Voorbeeld code bij elke functie.
+
+- Een R package is pas nuttig als de functies niet / weinig meer veranderen (ver ontwikkeld).
+- Alle projecten die jouw package gebruiken moeten in principe blijven werken als je updates maakt (*backwards compatibility*)
+- Deel een R package pas met anderen als je dit meestal kunt beloven.
 
 
 
