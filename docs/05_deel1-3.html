@@ -122,6 +122,7 @@ slide:not(.current) .plotly.html-widget{
 <li>Leesbaar maken van complexe code</li>
 <li>Voorkom fouten door hergebruik standaard functies</li>
 <li>Batch analysis: veel analyses in 1 stap</li>
+<li>&lsquo;Wrapper&rsquo; functies: instellen argumenten van andere functies</li>
 <li>Ontwikkel een verzameling van generieke functies (R packages)</li>
 </ol>
 
@@ -135,7 +136,7 @@ slide:not(.current) .plotly.html-widget{
 <li>Functie definities kunnen in een apart script: minder code in het &lsquo;main&rsquo; script</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Leesbaar maken van complexe code</h2></hgroup><article  id="leesbaar-maken-van-complexe-code">
+</article></slide><slide class=""><hgroup><h2>Leesbaar maken van complexe code (1)</h2></hgroup><article  id="leesbaar-maken-van-complexe-code-1">
 
 <pre class = 'prettyprint lang-r'>library(stringr)
 melding &lt;- &quot;Hoofdstraat 12, 5524 AJ, Geeneveen&quot;
@@ -147,7 +148,7 @@ out</pre>
 
 <pre >## [1] &quot;Hoofdstraat 12, 5524AJ, Geeneveen&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Leesbaar maken van complexe code</h2></hgroup><article  id="leesbaar-maken-van-complexe-code-1">
+</article></slide><slide class=""><hgroup><h2>Leesbaar maken van complexe code (2)</h2></hgroup><article  id="leesbaar-maken-van-complexe-code-2">
 
 <pre class = 'prettyprint lang-r'># ./R/functies.R
 remove_postcode_space &lt;- function(x){
@@ -178,9 +179,29 @@ remove_postcode_space(&quot;Hoofdstraat 12, 5524 AJ, Geeneveen&quot;)</pre>
 mijndata &lt;- mutate(mijndata,
                    afstand_km = mijl_naar_kilometer(afstand_mijl))</pre>
 
+</article></slide><slide class=""><hgroup><h2>Wrapper functies</h2></hgroup><article  id="wrapper-functies">
+
+<p>Gebruik je bij het aanroepen van ingebouwde functies heel vaak dezelfde argumenten?</p>
+
+<p>Schrijf een functie eromheen!</p>
+
+<pre class = 'prettyprint lang-r'>#Plot altijd met `pch = 19` (filled circles) in plaats van de default.
+plot(mtcars$wt, mtcars$disp, pch = 19)</pre>
+
+<p><img src="05_deel1-3_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+
+<p>In een functie,</p>
+
+<pre class = 'prettyprint lang-r'># Zet een nieuwe default voor pch - stuur door naar plot().
+plot_solid &lt;- function(..., pch = 19){
+  plot(..., pch = pch)
+}</pre>
+
 </article></slide><slide class=""><hgroup><h2>Batch analysis (1)</h2></hgroup><article  id="batch-analysis-1">
 
-<p>Komt dit bekend voor?</p>
+<p>Herhalen van analyses (of rapportage, grafieken, etc.) voor delen van de data.</p>
+
+<p><em>Komt dit bekend voor?</em></p>
 
 <pre class = 'prettyprint lang-r'>data_a &lt;- filter(mijndata, groep == &quot;A&quot;)
 fit_a &lt;- lm(y ~ x, data = data_a)
@@ -197,7 +218,20 @@ summary(fit_b)</pre>
 <pre class = 'prettyprint lang-r'>model_fits &lt;- split(mijndata, mijndata$groep) %&gt;%
   lapply(., function(data)lm(y ~ x, data = data))
 
-lapply(model_fits, summary)</pre></article></slide>
+lapply(model_fits, summary)</pre>
+
+</article></slide><slide class=""><hgroup><h2>R Packages</h2></hgroup><article  id="r-packages">
+
+<ul>
+<li><p>Als je een verzameling &lsquo;generieke&rsquo; functies hebt ontwikkeld, gebruik dan een R package.</p></li>
+<li><p>Documentatie (<code>?mijnfunctie</code>) kan met gemak gescrheven worden.</p></li>
+<li><p>Package kan door iedereen snel geinstalleerd worden.</p></li>
+<li><p>Automatische tests.</p></li>
+<li><p>Voorbeeld code bij elke functie.</p></li>
+<li><p>Een R package is pas nuttig als de functies niet / weinig meer veranderen (ver ontwikkeld).</p></li>
+<li><p>Alle projecten die jouw package gebruiken moeten in principe blijven werken als je updates maakt (<em>backwards compatibility</em>)</p></li>
+<li><p>Deel een R package pas met anderen als je dit meestal kunt beloven.</p></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
