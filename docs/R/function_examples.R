@@ -60,45 +60,5 @@ recycle <- function(x, n){
 
 
 
-impute <- function(x, method = c("mean","zero","last","interpolate")){
-  
-  method <- match.arg(method)
-  
-  out <- switch(method, 
-                mean = {
-                  
-                  data[is.na(data)] <- mean(data, na.rm = TRUE)
-                  
-                  data
-                },
-                zero = {
-                  
-                  data[is.na(data)] <- 0
-                  
-                  data
-                },
-                last = {
-                  
-                  ii <- which(is.na(data))
-                  ii <- setdiff(ii, 1)
-                  data[ii] <- data[ii - 1]
-                  
-                  data
-                },
-                interpolate = {
-                  
-                  ii <- which(is.na(data))
-                  data_new <- approx(1:length(data), data, xout = ii)
-                  data[ii] <- data_new$y
-                  
-                  data
-                  
-                }
-                
-  )
-  
-  return(out)
-  
-  
-}
+
 

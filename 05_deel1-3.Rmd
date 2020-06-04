@@ -25,10 +25,11 @@ output:
 
 1. Vermijden van duplicatie van code
 2. Leesbaar maken van complexe code
-3. Voorkom fouten door hergebruik standaard functies
-4. Batch analysis: veel analyses in 1 stap
-5. 'Wrapper' functies: instellen argumenten van andere functies
-5. Ontwikkel een verzameling van generieke functies (R packages)
+3. *Function scope* : voorkom rommel in het geheugen
+4. Voorkom fouten door hergebruik standaard functies
+5. Batch analysis: veel analyses in 1 stap
+6. 'Wrapper' functies: instellen argumenten van andere functies
+7. Ontwikkel een verzameling van generieke functies (R packages)
 
 
 ## Duplicatie van code
@@ -98,14 +99,14 @@ Gebruik je bij het aanroepen van ingebouwde functies heel vaak dezelfde argument
 Schrijf een functie eromheen!
 
 
-```{r}
+```{r, eval = FALSE}
 #Plot altijd met `pch = 19` (filled circles) in plaats van de default.
 plot(mtcars$wt, mtcars$disp, pch = 19)
 ```
 
 In een functie,
 
-```{r}
+```{r, eval = FALSE}
 # Zet een nieuwe default voor pch - stuur door naar plot().
 plot_solid <- function(..., pch = 19){
   plot(..., pch = pch)
