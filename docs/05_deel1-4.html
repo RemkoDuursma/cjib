@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Functies in R</title>
+  <title>Project workflow: functies</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Functies in R',
+                title: 'Project workflow: functies',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -100,7 +100,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">28 Mei 2020</p>
+            <p style="margin-top: 6px; margin-left: -2px;">11 Juni 2020</p>
           </hgroup>
   </slide>
 
@@ -114,12 +114,7 @@ slide:not(.current) .plotly.html-widget{
 <li>Wrapper functies voor plots</li>
 <li>Caching / drake</li>
 </ul></li>
-<li>Functies: extra tips &amp; tricks
-
-<ul>
-<li>Error handling</li>
-<li>S3</li>
-</ul></li>
+<li>Functies: extra tips &amp; tricks</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Project workflow</h2></hgroup><article  id="project-workflow">
@@ -127,10 +122,10 @@ slide:not(.current) .plotly.html-widget{
 <p>Een <em>goed</em> project:</p>
 
 <ul>
-<li>kan snel begrepen worden door anderen</li>
-<li>kan makkelijk aangepast worden (<em>config</em>)</li>
-<li>kan makkelijk uitgebreid worden</li>
-<li>delen van het project kunnen hergebruikt worden (<em>modulair</em>)</li>
+<li>Kan snel begrepen worden door anderen</li>
+<li>Kan makkelijk aangepast worden (<em>config</em>)</li>
+<li>Kan makkelijk uitgebreid worden</li>
+<li>Onderdelen van het project kunnen hergebruikt worden (<em>modulair</em>)</li>
 </ul>
 
 <p><em>Functies</em> zijn hier nuttig:</p>
@@ -159,13 +154,111 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class=""><hgroup><h2>Project structuur</h2></hgroup><article  id="project-structuur">
 
-<p>Organiseer de verschillende stappen, sub-stappen (sub-sub-stappen) voor een project.</p>
+<p>Organiseer de logica van de verschillende stappen, sub-stappen (sub-sub-stappen) voor een project.</p>
 
-<img src='screenshots/projectchunks.png' title=''/>
+<img src='screenshots/projectchunks_sm.png' title=''/>
 
 </article></slide><slide class=""><hgroup><h2>Voorbeeld 1</h2></hgroup><article  id="voorbeeld-1">
 
-</article></slide><slide class=""><hgroup><h2>Voorbeeld 2</h2></hgroup><article  id="voorbeeld-2"></article></slide>
+<pre class = 'prettyprint lang-r'>park &lt;- arrange(parking_raw, updated) %&gt;%
+  filter(!label %in% c(&quot;P+R&quot;,&quot;P4&quot;) ) %&gt;%
+  mutate(label = as.factor(label),
+         updated = as.POSIXct(updated, tz = &quot;UTC&quot;),
+         week_time = (wday(updated) - 1) * 24*60 +
+           60*(hour(updated)) + minute(updated),
+         week_time_15 = floor(week_time / 15),
+         Date = as.Date(updated))</pre>
+
+</article></slide><slide class=""><hgroup><h2>Voorbeeld 1</h2></hgroup><article  id="voorbeeld-1-1">
+
+<pre class = 'prettyprint lang-r'># R/functions_clean_data.R
+clean_parking_data &lt;- function(data){
+  
+  data %&gt;%
+  arrange(updated) %&gt;%
+  filter(!label %in% c(&quot;P+R&quot;,&quot;P4&quot;) ) %&gt;%
+  mutate(label = as.factor(label),
+         updated = as.POSIXct(updated, tz = &quot;UTC&quot;),
+         week_time = (wday(updated) - 1) * 24*60 +
+           60*(hour(updated)) + minute(updated),
+         week_time_15 = floor(week_time / 15),
+         Date = as.Date(updated))
+}
+
+# main.R
+park &lt;- clean_parking_data(parking_raw)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Voorbeeld 2</h2></hgroup><article  id="voorbeeld-2">
+
+<pre class = 'prettyprint lang-r'>parking_hr &lt;- group_by(park, Date, label, hour) %&gt;%
+    summarize(parked = mean(parked)) %&gt;%
+    ungroup %&gt;%
+    mutate(weekday = wday(Date, abbr=FALSE, label = TRUE),
+           weekday = as.integer(factor(weekday, ordered = FALSE)))
+
+model1 &lt;- ranger(parked ~ hour + label + weekday, data = parking_hr, importance = &quot;impurity&quot;)
+
+out_dfr &lt;- expand.grid(hour = hour_now,
+                         weekday = wday(Sys.time()),
+                         label = factor(c(&quot;P1&quot;,&quot;P10&quot;,&quot;P11&quot;,&quot;P12&quot;,
+                                          &quot;P2&quot;,&quot;P3&quot;,&quot;P5&quot;,&quot;P6&quot;,&quot;P7&quot;,&quot;P8&quot;,&quot;P9&quot;)))
+  
+predict(model, data = out_dfr)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Voorbeeld 2</h2></hgroup><article  id="voorbeeld-2-1">
+
+<pre class = 'prettyprint lang-r'># Maak uurlijkse data
+parking_hr &lt;- aggregate_parking_data(park)
+
+# Fit model, met weekdag
+model1 &lt;- fit_randomforest_model(parking_hr, form = 1)
+
+# Voorspellingen
+predict_randomforest_model(model1)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Reproducibility: langzame stappen</h2></hgroup><article  id="reproducibility-langzame-stappen">
+
+<ul>
+<li><p>Een <em>goed</em> project kan in 1 stap opnieuw uitgevoerd worden (bv. <code>source(&quot;main.R&quot;)</code>)</p></li>
+<li><p><em>Alle</em> outputs kunnen opnieuw gemaakt worden op basis van de <em>code</em></p></li>
+<li><p>Langzame stappen: liever maken we deze niet opnieuw wanneer dit niet nodig is</p></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'># Super simpel systeem
+cache &lt;- &quot;cache/slowstep.rds&quot;
+if(!file.exists(cache)){
+  result &lt;- make_slow_result()
+} else {
+  result &lt;- readRDS(cache)
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>Reproducibility: langzame stappen</h2></hgroup><article  id="reproducibility-langzame-stappen-1">
+
+<ul>
+<li>Beter: gebruik van een workflow manager systeem</li>
+<li>Straks: de <code>drake</code> package</li>
+</ul>
+
+<img src='screenshots/drake.png' title=''/>
+
+</article></slide><slide class=""><hgroup><h2>Functie types: generiek vs. project functies</h2></hgroup><article  id="functie-types-generiek-vs.-project-functies">
+
+<ul>
+<li><p>Generieke functies weten niets van je specifieke project, en kunnen overal worden gebruikt</p></li>
+<li><p>Gebruik van <em>namespace directive</em> (<code>dplyr::filter</code>), en <code>require</code> voor laden van packages is aan te raden.</p></li>
+<li><p>Project functies zijn specifiek voor dit project</p></li>
+<li><p>Om tijd te besparen kun je minder strict zijn in aanroepen packages, en alle packages simpelweg laden in <code>R/load_packages.R</code></p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Tot slot</h2></hgroup><article  id="tot-slot">
+
+<ul>
+<li><p>We kunnen <em>functies</em> gebruiken om onze lange code in logische brokken te verdelen</p></li>
+<li><p>Deze brokken hebben duidelijke <em>inputs</em> en <em>outputs</em> waardoor de samenhang van het project duidelijk wordt</p></li>
+<li><p>Dit maakt een zeer leesbaar &lsquo;hoofd&rsquo; script mogelijk</p></li>
+<li><p>Houd je functies klein: een functie voert 1 operatie uit, met evt. opties.</p></li>
+<li><p>Het vinden van de juiste functies is niet makkelijk, er zijn meerdere mogelijkheden!</p></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

@@ -1,0 +1,41 @@
+---
+title: "shiny"
+author: "Remko Duursma"
+date: "29 Juni 2020"
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+  
+  
+## R & Rstudio Advanced | "Dag" 2 - Deel 4
+
+
+
+## Wat is een shiny app?
+
+- De `shiny` package maakt een web applicatie
+- Met alleen R code maken we een applicatie, werkt in een browser
+
+`shiny` gebruikt (behalve R):
+
+- **HTML** : content van een pagina, tekst, images, tables, etc.
+- **CSS** : vormgeving van de content (kleuren, afmetingen, etc.)
+- **Javascript** : alle interactiviteit, updaten van content, etc.
+
+Je hoeft hier niets van te weten (maar het helpt wel, vooral HTML+CSS).
+
+
+
+
+  
+  
+## Resources
+
+- https://shiny.rstudio.com/
+- https://www.shinyapps.io/
+- https://github.com/nanxstats/awesome-shiny-extensions
+- https://www.htmlwidgets.org/
+
+
+
